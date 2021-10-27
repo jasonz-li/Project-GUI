@@ -56,6 +56,10 @@ public class SampleController {
     @FXML
     private RadioButton nonres;
 
+    @FXML
+    private Button tuitionDueButton;
+
+
 
     @FXML
     void toggleTristate(ActionEvent event) {
@@ -197,6 +201,56 @@ public class SampleController {
         }
     }
 
+    @FXML
+    void removeStudent(ActionEvent event){
+        if (name.getText().isEmpty()){
+            message.appendText("Name is empty.\n");
+            return;
+        }
+        if (major.getSelectedToggle() == null) {
+            message.appendText("Major not selected.\n");
+            return;
+        }
+        String studentName = name.getText();
+        RadioButton majorButton = (RadioButton) major.getSelectedToggle();
+        String major = majorButton.getText();
+
+        Student target = roster.findStudent(studentName, major);
+        if (target != null){
+            roster.remove(target);
+            message.appendText("Student removed from the roster.\n");
+        }
+        else{
+            message.appendText("Student is not in the roster.\n");
+        }
+    }
+
+    @FXML
+    void calculateTuitionSingle(ActionEvent event) {
+        if (name.getText().isEmpty()){
+            message.appendText("Name is empty.\n");
+            return;
+        }
+        if (major.getSelectedToggle() == null) {
+            message.appendText("Major not selected.\n");
+            return;
+        }
+        String studentName = name.getText();
+        RadioButton majorButton = (RadioButton) major.getSelectedToggle();
+        String major = majorButton.getText();
+        Student student = roster.findStudent(studentName, major);
+        if (student != null){
+            calculateSingle(roster, student);
+            tuitionDueSingle.setText(String.valueOf(student.getTotalCost()));
+        }
+        else{
+            message.appendText("Student is not in the roster.");
+        }
+
+    }
+
+
+
 
 
     /**
@@ -213,6 +267,22 @@ public class SampleController {
             }
         }
         return false;
+    }
+
+
+
+    /**
+     * Initializes the tuition for a single student in the roster.
+     * @param roster roster of students
+     */
+    private void calculateSingle(Roster roster, Student student){
+        for (int i = 0; i < roster.getSize(); i++){
+            if (roster.getRoster()[i].getDate() == null &&
+            roster.getRoster()[i].getProfile().getName().equals(student.getProfile().getName()) &&
+            roster.getRoster()[i].getProfile().getMajor().equals(student.getProfile().getMajor())){
+                roster.getRoster()[i].tuitionDue();
+            }
+        }
     }
 }
 
