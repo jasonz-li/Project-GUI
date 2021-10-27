@@ -17,6 +17,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Tuition Manager");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			Roster roster = new Roster();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

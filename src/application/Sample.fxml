@@ -59,36 +59,36 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" prefHeight="41.0" prefWidth="104.0" text="Resident       ">
+                                    <RadioButton fx:id="res" mnemonicParsing="false" onAction="#disableOptions" prefHeight="41.0" prefWidth="104.0" selected="true" text="Resident       ">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="resident" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" prefHeight="41.0" prefWidth="99.0" text="Non-Resident" toggleGroup="$resident" />
+                                    <RadioButton fx:id="nonres" mnemonicParsing="false" onAction="#enableOptions" prefHeight="41.0" prefWidth="99.0" text="Non-Resident" toggleGroup="$resident" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
-                                    <RadioButton fx:id="tristate" mnemonicParsing="false" onAction="#toggleTristate" prefHeight="41.0" prefWidth="87.0" text="Tristate">
+                                    <RadioButton fx:id="tristate" disable="true" mnemonicParsing="false" onAction="#toggleTristate" prefHeight="41.0" prefWidth="87.0" text="Tristate">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="localOrInternational" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="ny" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="100.0" text="New York">
+                                    <RadioButton fx:id="ny" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="50.0" text="NY">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="tristateTrue" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="ct" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="99.0" text="Connecticut" toggleGroup="$tristateTrue" />
+                                    <RadioButton fx:id="ct" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="50.0" text="CT" toggleGroup="$tristateTrue" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <children>
-                                    <RadioButton fx:id="international" mnemonicParsing="false" onAction="#toggleInternational" prefHeight="41.0" prefWidth="118.0" text="International" toggleGroup="$localOrInternational" />
+                                    <RadioButton fx:id="international" disable="true" mnemonicParsing="false" onAction="#toggleInternational" prefHeight="41.0" prefWidth="118.0" text="International" toggleGroup="$localOrInternational" />
                                     <CheckBox fx:id="abroad" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" text="Studying Abroad" />
                                  </children>
                               </HBox>
-                              <TextField fx:id="credits" onKeyPressed="#checkCredits" prefHeight="36.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="credits" prefHeight="36.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <Label alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="107.0" text="Credit Hours" GridPane.rowIndex="5" />
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
@@ -105,6 +105,7 @@
                               </HBox>
                            </children>
                         </GridPane>
+                        <Button layoutX="458.0" layoutY="155.0" mnemonicParsing="false" onAction="#deselect" prefHeight="47.0" prefWidth="147.0" text="Reset Status Options" />
                      </children>
                   </AnchorPane>
               </content>
