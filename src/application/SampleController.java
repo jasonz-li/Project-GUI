@@ -349,6 +349,7 @@ public class SampleController {
         }
     }
 
+
     @FXML
     void calculateTuitionSingle(ActionEvent event) {
         if (name.getText().isEmpty()){
