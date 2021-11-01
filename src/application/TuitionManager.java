@@ -221,7 +221,6 @@ public class TuitionManager {
                         System.out.println("Couldn't find the international student.");
                     }
                 }
-
             }
 
             else if (input.equals("F")) { // set financial aid
