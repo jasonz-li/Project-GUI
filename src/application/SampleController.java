@@ -250,8 +250,17 @@ public class SampleController {
 
     @FXML
     void abroadStatusChange(ActionEvent event) {
-        String studentName = name.getText();
         RadioButton majorButton = (RadioButton) major.getSelectedToggle();
+
+        if (name.getText().isEmpty()){
+            message.appendText("Name field cannot be empty.\n");
+            return;
+        }
+        else if (majorButton == null){
+            message.appendText("Major field cannot be empty.\n");
+            return;
+        }
+        String studentName = name.getText();
         String major = majorButton.getText();
         boolean studyingAbroad = abroad.isSelected();
         if (roster.findStudent(studentName, major) == null) {
@@ -299,10 +308,22 @@ public class SampleController {
         }
     }
 
+    /**
+     * Initializes the tuition for all students in the roster.
+     * @param roster roster of students
+     */
+    private void calculateAll(Roster roster, Student student){
+        for (int i = 0; i < roster.getSize(); i++){
+            if (roster.getRoster()[i].getDate() == null){
+                roster.getRoster()[i].tuitionDue();
+            }
+        }
+    }
+
 
     private void changeAbroad(Roster roster, Student student, boolean abroad){
-        String name = student.getProfile().getName();
         String major = student.getProfile().getMajor();
+        String name = student.getProfile().getName();
         boolean moreThan12 = false;
         International international = International.class.cast(student);
         if (international.studyingAbroad == abroad){
