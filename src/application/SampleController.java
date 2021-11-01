@@ -7,6 +7,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 public class SampleController {
 
     Roster roster = new Roster();
@@ -58,6 +61,115 @@ public class SampleController {
 
     @FXML
     private Button tuitionDueButton;
+
+
+
+
+    //john
+    @FXML
+    private Button AidButton;
+
+    @FXML
+    private TextField FinancialAid;
+
+    @FXML
+    private Button PayButton;
+
+    @FXML
+    private ToggleGroup majorPayments;
+
+    @FXML
+    private DatePicker paymentDate;
+
+    @FXML
+    private TextField paymentAmount;
+
+    @FXML
+    private Button printRandomButton;
+
+    @FXML
+    private Button printByDateButton;
+
+    @FXML
+    private Button printByNameButton;
+
+    @FXML
+    private TextField tName;
+
+    @FXML
+    void payTuition(ActionEvent event) {
+        if (tName.getText().isEmpty()){
+            message.appendText("Name is empty.\n");
+            return;
+        }
+        if (majorPayments.getSelectedToggle() == null) {
+            message.appendText("Major not selected.\n");
+            return;
+        }
+        if(paymentAmount.getText().isEmpty()){
+            message.appendText("Payment amount empty.\n");
+            return;
+        }
+        if(paymentDate.getValue() == null){
+            message.appendText("Payment date not selected.\n");
+            return;
+        }
+
+
+        String paymentStudentName = tName.getText();
+        RadioButton majorButton = (RadioButton) majorPayments.getSelectedToggle();
+        String paymentMajor = majorButton.getText();
+        String payAmount = paymentAmount.getText();
+
+        Student targetStudent = roster.findStudent(paymentStudentName, paymentMajor);
+        if(targetStudent == null){
+            message.appendText("Student is not on the roster.\n");
+            return;
+        }
+        message.appendText("" + targetStudent.getTotalCost() + "\n");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US);
+        String formattedValue = (paymentDate.getValue()).format(formatter);
+
+        Date payDate = new Date(formattedValue);
+
+        try {
+            double payAmountDouble = Double.parseDouble(payAmount);
+
+            targetStudent.payTuition(payAmountDouble, payDate);
+            message.appendText("Payment complete. " + targetStudent.getTotalCost() + " remains to be paid. " +
+                    targetStudent.getTotalPayment() +" has been paid." + "\n");
+        } catch (NumberFormatException e) {
+            message.appendText("Non-numeric input for payment amount.\n");
+            return;
+        }
+
+    }
+
+    @FXML
+    void payFinancialAid(ActionEvent event) {
+
+    }
+
+    @FXML
+    void printRandom(ActionEvent event) {
+
+    }
+
+    @FXML
+    void printByDate(ActionEvent event) {
+
+    }
+
+    @FXML
+    void printByName(ActionEvent event) {
+
+    }
+
+
+
+    //end
+
 
 
 
@@ -226,6 +338,18 @@ public class SampleController {
     }
 
     @FXML
+    void calculateAll(ActionEvent event) {
+        if (roster.getSize() == 0){
+            message.appendText("Roster is empty.\n");
+            return;
+        }
+        else{
+            calculateAll(roster);
+            message.appendText("Calculation completed.\n");
+        }
+    }
+
+    @FXML
     void calculateTuitionSingle(ActionEvent event) {
         if (name.getText().isEmpty()){
             message.appendText("Name is empty.\n");
@@ -301,8 +425,8 @@ public class SampleController {
     private void calculateSingle(Roster roster, Student student){
         for (int i = 0; i < roster.getSize(); i++){
             if (roster.getRoster()[i].getDate() == null &&
-            roster.getRoster()[i].getProfile().getName().equals(student.getProfile().getName()) &&
-            roster.getRoster()[i].getProfile().getMajor().equals(student.getProfile().getMajor())){
+                    roster.getRoster()[i].getProfile().getName().equals(student.getProfile().getName()) &&
+                    roster.getRoster()[i].getProfile().getMajor().equals(student.getProfile().getMajor())){
                 roster.getRoster()[i].tuitionDue();
             }
         }
@@ -312,7 +436,7 @@ public class SampleController {
      * Initializes the tuition for all students in the roster.
      * @param roster roster of students
      */
-    private void calculateAll(Roster roster, Student student){
+    private void calculateAll(Roster roster){
         for (int i = 0; i < roster.getSize(); i++){
             if (roster.getRoster()[i].getDate() == null){
                 roster.getRoster()[i].tuitionDue();
@@ -356,7 +480,6 @@ public class SampleController {
         }
     }
 }
-
 
 
 
