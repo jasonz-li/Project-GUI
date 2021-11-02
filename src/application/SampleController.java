@@ -321,7 +321,7 @@ public class SampleController {
 
         if (res.isSelected()) {
             Resident resident = new Resident(studentName, major, creditHours);
-            if (checkRosterDuplicate(resident, roster)) {
+            if (checkRosterDuplicate(resident, roster)) { ;
                 message.appendText("Student already in roster.\n");
                 return;
             }
@@ -397,6 +397,19 @@ public class SampleController {
     }
 
     @FXML
+    void calculateAll(ActionEvent event) {
+        if (roster.getSize() == 0){
+            message.appendText("Roster is empty.\n");
+            return;
+        }
+        else{
+            calculateAll(roster);
+            message.appendText("Calculation completed.\n");
+        }
+    }
+
+
+    @FXML
     void calculateTuitionSingle(ActionEvent event) {
         if (name.getText().isEmpty()){
             message.appendText("Name is empty.\n");
@@ -415,9 +428,32 @@ public class SampleController {
             tuitionDueSingle.setText(String.valueOf(student.getTotalCost()));
         }
         else{
-            message.appendText("Student is not in the roster.");
+            message.appendText("Student is not in the roster.\n");
         }
+    }
 
+    @FXML
+    void abroadStatusChange(ActionEvent event) {
+        RadioButton majorButton = (RadioButton) major.getSelectedToggle();
+
+        if (name.getText().isEmpty()){
+            message.appendText("Name field cannot be empty.\n");
+            return;
+        }
+        else if (majorButton == null){
+            message.appendText("Major field cannot be empty.\n");
+            return;
+        }
+        String studentName = name.getText();
+        String major = majorButton.getText();
+        boolean studyingAbroad = abroad.isSelected();
+        if (roster.findStudent(studentName, major) == null) {
+            message.appendText("Could not find the international student.\n");
+        }
+        else {
+            Student student = roster.findStudent(studentName, major);
+            changeAbroad(roster, student, studyingAbroad);
+        }
     }
 
 
@@ -449,9 +485,57 @@ public class SampleController {
     private void calculateSingle(Roster roster, Student student){
         for (int i = 0; i < roster.getSize(); i++){
             if (roster.getRoster()[i].getDate() == null &&
-            roster.getRoster()[i].getProfile().getName().equals(student.getProfile().getName()) &&
-            roster.getRoster()[i].getProfile().getMajor().equals(student.getProfile().getMajor())){
+                    roster.getRoster()[i].getProfile().getName().equals(student.getProfile().getName()) &&
+                    roster.getRoster()[i].getProfile().getMajor().equals(student.getProfile().getMajor())){
                 roster.getRoster()[i].tuitionDue();
+            }
+        }
+    }
+
+    /**
+     * Initializes the tuition for all students in the roster.
+     * @param roster roster of students
+     */
+    private void calculateAll(Roster roster){
+        for (int i = 0; i < roster.getSize(); i++){
+            if (roster.getRoster()[i].getDate() == null){
+                roster.getRoster()[i].tuitionDue();
+            }
+        }
+    }
+
+
+    private void changeAbroad(Roster roster, Student student, boolean abroad){
+        String major = student.getProfile().getMajor();
+        String name = student.getProfile().getName();
+        boolean moreThan12 = false;
+        International international = International.class.cast(student);
+        if (international.studyingAbroad == abroad){
+            message.appendText("Nothing to change.\n");
+            return;
+        }
+        else{
+            international.studyingAbroad = abroad;
+            if (international.getCreditHours() >= 12){
+                student.setCreditHours(12);
+                student.setTotalPayment(0.00);
+                moreThan12 = true;
+                if (student.getDate() == null){
+                    student.tuitionDue();
+                    message.appendText("Tuition updated.\n");
+                }
+                else{
+                    student.getDate().setDateCleared(true);
+                    if (moreThan12){
+                        student.tuitionDue();
+                        student.setTotalPayment(0.00);
+                    }
+                    else{
+                        student.tuitionDue();
+                    }
+                    message.appendText("Tuition updated.");
+
+                }
             }
         }
     }
