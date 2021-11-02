@@ -49,12 +49,13 @@ public class Resident extends Student {
      * @return true if aid was successfully given and returns false if student's aid limit has been capped.
      */
     public boolean setFinancialAid(double aid) {
-        if (aid < 10000 && aid >= 0) {
+        if (aid <= 10000 && aid >= 0) {
             this.financialAid = aid;
             if(super.getTotalCost() < financialAid){
                 setTotalCost(0);
             }else{
                 setTotalCost(super.getTotalCost() - financialAid);
+                setTotalPayment(super.getTotalPayment() + financialAid);
             }
             return true;
         } else {

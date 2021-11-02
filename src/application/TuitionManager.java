@@ -56,7 +56,6 @@ public class TuitionManager {
             System.out.println("Student roster is empty!");
         }else {
             if (input.equals("P")) {
-                roster.print();
             } else if (input.equals("PN")) {
                 roster.printByName();
             } else if (input.equals("PT")) {
