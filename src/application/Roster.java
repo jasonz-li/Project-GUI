@@ -106,7 +106,8 @@ public class Roster {
     }
 
     /**
-     * Prints out roster in its current order.
+     * Accumulates strings of students in its current order.
+     * @return returns a string of all the students
      */
     public String printCurrentOrder(){
         String output = "";
@@ -158,7 +159,8 @@ public class Roster {
     }
 
     /**
-     * Prints the roster by payment date.
+     * Accumulates strings of students in their current order after ordering them by date .
+     * @return returns a string of all the students
      */
     public String printPaymentDays() {
         String output = "";
