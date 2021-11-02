@@ -115,7 +115,6 @@ public class SampleController {
             return;
         }
 
-
         String paymentStudentName = tName.getText();
         RadioButton majorButton = (RadioButton) majorPayments.getSelectedToggle();
         String paymentMajor = majorButton.getText();
@@ -126,7 +125,10 @@ public class SampleController {
             message.appendText("Student is not on the roster.\n");
             return;
         }
-        message.appendText("" + targetStudent.getTotalCost() + "\n");
+        if(targetStudent.getTotalCost() == 0){
+            message.appendText("Calculate the Student's tuition.\n");
+            return;
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US);
         String formattedValue = (paymentDate.getValue()).format(formatter);
@@ -148,21 +150,78 @@ public class SampleController {
 
     @FXML
     void payFinancialAid(ActionEvent event) {
+        if (tName.getText().isEmpty()){
+            message.appendText("Name is empty.\n");
+            return;
+        }
+        if (majorPayments.getSelectedToggle() == null) {
+            message.appendText("Major not selected.\n");
+            return;
+        }
+        if (FinancialAid.getText().isEmpty()){
+            message.appendText("Financial aid is empty.\n");
+            return;
+        }
+        String paymentStudentName = tName.getText();
+        RadioButton majorButton = (RadioButton) majorPayments.getSelectedToggle();
+        String paymentMajor = majorButton.getText();
+        String financialAidString = FinancialAid.getText();
+
+        Student targetStudent = roster.findStudent(paymentStudentName, paymentMajor);
+        if(targetStudent == null){
+            message.appendText("Student is not on the roster.\n");
+            return;
+        }
+        if(targetStudent.getTotalCost() == 0){
+            message.appendText("Calculate the Student's tuition.\n");
+            return;
+        }
+        if (targetStudent instanceof Resident) {
+            Resident newRes = (Resident) targetStudent;
+            try {
+                if(newRes.getFinancialAidPaid() == true){
+                    message.appendText("Financial aid can only be used once\n");
+                    return;
+                }
+                double financialAidDouble = Double.parseDouble(financialAidString);
+                if(newRes.setFinancialAid(financialAidDouble) == false){
+                    message.appendText("Financial aid must be a value from $0 to $10,000\n");
+                    return;
+                }
+                newRes.setFinancialAidPaid(true);
+                message.appendText("Financial aid complete. " + targetStudent.getTotalCost() + " remains to be paid. " +
+                        targetStudent.getTotalPayment() +" has been paid." + "\n");
+            } catch (NumberFormatException e) {
+                message.appendText("Non-numeric input for payment amount.\n");
+                return;
+            }
+        }else{
+            message.appendText("The student has to be a resident to receive financial aid\n");
+            return;
+        }
 
     }
 
     @FXML
     void printRandom(ActionEvent event) {
+        String output = roster.printCurrentOrder();
+        message.appendText("Print:" + "\n" + output + "\n");
 
     }
 
     @FXML
     void printByDate(ActionEvent event) {
+        roster.printByPaymentDate();
+        String output = roster.printPaymentDays();
+        message.appendText("Print by Date:"  + "\n" + output + "\n");
 
     }
 
     @FXML
     void printByName(ActionEvent event) {
+        roster.printByName();
+        String output = roster.printCurrentOrder();
+        message.appendText("Print by Name:"  + "\n" + output + "\n");
 
     }
 

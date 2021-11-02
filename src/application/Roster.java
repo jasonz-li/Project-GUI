@@ -106,38 +106,36 @@ public class Roster {
     }
 
     /**
-     * Prints out roster in its current order.
+     * Accumulates strings of students in its current order.
+     * @return returns a string of all the students
      */
-    private void printCurrentOrder(){
+    public String printCurrentOrder(){
+        String output = "";
         for(int i = 0; i < this.roster.length; i++){
             if(roster[i] != null){
                 if(roster[i] instanceof Resident){
                     Resident student = (Resident) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof TriState){
                     TriState student = (TriState) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof International){
                     International student = (International) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof NonResident){
                     NonResident student = (NonResident) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
             }
         }
-    }
-
-    /**
-     * Prints out roster in its current order.
-     */
-    public void print() {
-        System.out.println("* list of students in the roster **");
-        this.printCurrentOrder();
-        System.out.println("* end of roster **");
+        return output;
     }
 
     /**
@@ -158,35 +156,39 @@ public class Roster {
             roster[min_idx] = roster[i];
             roster[i] = tempVar;
         }
-        System.out.println("* list of students made payments ordered by payment date **");
-        this.printPaymentDays();
-        System.out.println("* end of roster **");
     }
 
     /**
-     * Prints the roster by payment date.
+     * Accumulates strings of students in their current order after ordering them by date .
+     * @return returns a string of all the students
      */
-    public void printPaymentDays() {
+    public String printPaymentDays() {
+        String output = "";
         for(int i = 0; i < this.roster.length; i++){
             if(roster[i] != null && roster[i].getDate() != null && roster[i].getDate().getDateCleared() == false){
                 if (roster[i] instanceof Resident){
                     Resident student = (Resident) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof TriState){
                     TriState student = (TriState) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof International){
                     International student = (International) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
                 else if(roster[i] instanceof NonResident){
                     NonResident student = (NonResident) roster[i];
-                    System.out.println(student.toString());
+                    output = output.concat(student.toString());
+                    output = output.concat("\n");
                 }
             }
         }
+        return output;
     }
 
     /**
@@ -206,9 +208,6 @@ public class Roster {
             roster[min_idx] = roster[i];
             roster[i] = tempVar;
         }
-        System.out.println("* list of students ordered by name **");
-        this.printCurrentOrder();
-        System.out.println("* end of roster **");
     }
 
     /**
