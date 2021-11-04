@@ -1,5 +1,4 @@
 package application;
-	
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -13,6 +12,10 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	/**
+	 * Starts the application and creates the scene.
+	 * @param primaryStage window
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {

@@ -15,58 +15,105 @@ public class SampleController {
 
     Roster roster = new Roster();
 
+    /**
+     * Credits textfield
+     */
     @FXML
     private TextField credits;
 
+    /**
+     * Togglegroup for tristate and international
+     */
     @FXML
     private ToggleGroup localOrInternational;
 
+    /**
+     * Togglegroup for majors
+     */
     @FXML
     private ToggleGroup major;
 
+    /**
+     * Textfield for name
+     */
     @FXML
     private TextField name;
 
+    /**
+     * Textbox
+     */
     @FXML
     private TextArea message;
 
+    /**
+     * Togglegroup for resident and non-resident
+     */
     @FXML
     private ToggleGroup resident;
 
+    /**
+     * Radio button for tristate
+     */
     @FXML
     private RadioButton tristate;
 
+    /**
+     * Togglegroup for NY and CT
+     */
     @FXML
     private ToggleGroup tristateTrue;
 
+    /**
+     * Radio button for NY
+     */
     @FXML
     private RadioButton ny;
 
+    /**
+     * Radio button for CT
+     */
     @FXML
     private RadioButton ct;
 
+    /**
+     * Radio button for international
+     */
     @FXML
     private RadioButton international;
 
+    /**
+     * Checkbox for abroad
+     */
     @FXML
     private CheckBox abroad;
 
+    /**
+     * Textfield for calculating the tuition for a single student
+     */
     @FXML
     private TextField tuitionDueSingle;
 
+    /**
+     * Radio button for resident
+     */
     @FXML
     private RadioButton res;
 
+    /**
+     * Radio button for non-resident
+     */
     @FXML
     private RadioButton nonres;
 
+    /**
+     * Button for calculating tuition for a single student.
+     */
     @FXML
     private Button tuitionDueButton;
 
-
-
-
-    //john
+    /**
+     * Button for applying financial aid
+     */
     @FXML
     private Button AidButton;
 
@@ -124,6 +171,10 @@ public class SampleController {
     @FXML
     private TextField tName;
 
+    /**
+     * Pays the tuition for a student after checking if they are a valid student, have a valid pay date, and have a major selected.
+     * @param event click event
+     */
     @FXML
     void payTuition(ActionEvent event) {
         if (tName.getText().isEmpty()){
@@ -138,11 +189,17 @@ public class SampleController {
             message.appendText("Payment amount empty.\n");
             return;
         }
-        if(paymentDate.getValue() == null){
+        if(paymentDate.getValue() == null) {
             message.appendText("Payment date not selected.\n");
             return;
         }
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US);
+        String formattedValue = (paymentDate.getValue()).format(formatter);
+        Date payDate = new Date(formattedValue);
+        if (!payDate.isValid()){
+            message.appendText("Payment date is not valid.\n");
+            return;
+        }
         String paymentStudentName = tName.getText();
         RadioButton majorButton = (RadioButton) majorPayments.getSelectedToggle();
         String paymentMajor = majorButton.getText();
@@ -157,11 +214,6 @@ public class SampleController {
             message.appendText("Calculate the Student's tuition.\n");
             return;
         }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US);
-        String formattedValue = (paymentDate.getValue()).format(formatter);
-
-        Date payDate = new Date(formattedValue);
 
         try {
             double payAmountDouble = Double.parseDouble(payAmount);
@@ -274,13 +326,11 @@ public class SampleController {
 
     }
 
-
-
-    //end
-
-
-
-
+    /**
+     * When the Tristate radio button is toggled, it enables the checkboxes for NY and CT and disables the checkbox for
+     * study abroad status.
+     * @param event click event
+     */
     @FXML
     void toggleTristate(ActionEvent event) {
         ny.setDisable(false);
@@ -289,6 +339,11 @@ public class SampleController {
         abroad.setSelected(false);
     }
 
+    /**
+     * When the International radio button is toggled, it enables the checkbox for study abroad sttus and siables the
+     * checkboxes for NY and CT.
+     * @param event click event
+     */
     @FXML
     void toggleInternational(ActionEvent event) {
         abroad.setDisable(false);
@@ -298,7 +353,10 @@ public class SampleController {
         ct.setSelected(false);
     }
 
-
+    /**
+     * Deselects all radio buttons and checkboxes.
+     * @param event click event
+     */
     @FXML
     void deselect(ActionEvent event) {
         tristate.setSelected(false);
@@ -314,12 +372,20 @@ public class SampleController {
         nonres.setSelected(false);
     }
 
+    /**
+     * Enables the Tristate and International radio buttons when a residency is selected to avoid error inputs.
+     *  @param event click event
+     */
     @FXML
     void enableOptions(ActionEvent event) {
         tristate.setDisable(false);
         international.setDisable(false);
     }
 
+    /**
+     * When clicking on Resident, it disables all non-residency options to avoid error inputs.
+     * @param event click event
+     */
     @FXML
     void disableOptions(ActionEvent event) {
         tristate.setDisable(true);
@@ -333,6 +399,10 @@ public class SampleController {
     }
 
 
+    /**
+     * Adds a student to the roster.
+     * @param event click event
+     */
     @FXML
     void addStudent(ActionEvent event) {
         if (name.getText().isEmpty()){
@@ -362,6 +432,7 @@ public class SampleController {
         String major = majorButton.getText();
         try {
             int creditHours = Integer.parseInt(credits.getText());
+
         } catch (NumberFormatException e) {
             message.appendText("Non-numeric input.\n");
             return;
@@ -425,6 +496,10 @@ public class SampleController {
         }
     }
 
+    /**
+     * Removes a student from the roster.
+     * @param event click event
+     */
     @FXML
     void removeStudent(ActionEvent event){
         if (name.getText().isEmpty()){

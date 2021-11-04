@@ -8,6 +8,9 @@ package application;
  */
 
 public class International extends NonResident {
+    /**
+     * Study abroad status
+     */
     public boolean studyingAbroad;
 
     /**
@@ -29,12 +32,13 @@ public class International extends NonResident {
         double tuition = 29737;
         double fee = 3268;
         double extraFee = 2650;
+        double nonresRate = 966;
         if (studyingAbroad){ // student is studying abroad
-            tuition = fee + 2650;
+            tuition = fee + extraFee;
         }
         else{ // full-time tuition regular
             if (this.getCreditHours() > 16){
-                tuition = tuition + fee + extraFee + 966 * (this.getCreditHours() - 16);
+                tuition = tuition + fee + extraFee + nonresRate * (this.getCreditHours() - 16);
             }
             else{
                 tuition = tuition + fee + extraFee;
@@ -68,31 +72,11 @@ public class International extends NonResident {
      */
     @Override
     public String toString() {  //Joshua Patel:CS:12 credit hours:tuition due:5,918.00:total payment:0.00:last payment date: --/--/--:non-resident:international:study abroad
-        String pattern = "###,##0.00";
-        DecimalFormat numberFormat = new DecimalFormat(pattern);
-        Date studentDateCheck = super.getDate(); // gets the student date
-        String dateString = "";
-        if(studentDateCheck == null){
-            dateString = "--/--/--";
-        }else{
-            dateString = this.getDate().getDate();
-        }
-        String str = "";
-        String studyAbroad = "";
-        if (this.studyingAbroad == true) {
-            studyAbroad = "study abroad";
-            str = this.getProfile().getName() + ":" + this.getProfile().getMajor() + ":" + this.getCreditHours()
-                    + " credit hours:" + "tuition due:" + numberFormat.format(this.getTotalCost()) + ":" +
-                    "total payment:" + numberFormat.format(this.getTotalPayment()) + ":" + "last payment date: "
-                    + dateString + ":" + "non-resident:international:" + studyAbroad;
+        if (this.studyingAbroad ) {
+            return super.toString() + ":international:study abroad";
         }
         else{
-            str = this.getProfile().getName() + ":" + this.getProfile().getMajor() + ":" + this.getCreditHours()
-                    + " credit hours:" + "tuition due:" + numberFormat.format(this.getTotalCost()) + ":" +
-                    "total payment:" + numberFormat.format(this.getTotalPayment()) + ":" + "last payment date: "
-                    + dateString + ":" + "non-resident:international";
+            return super.toString() + ":international";
         }
-        return str;
     }
-
 }

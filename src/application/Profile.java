@@ -9,7 +9,14 @@ package application;
  */
 
 public class Profile {
+    /**
+     * Student name
+     */
     private String name;
+
+    /**
+     * Student major
+     */
     private Major major; //5 majors and 2-characters each: CS, IT, BA, EE, ME
 
     /**

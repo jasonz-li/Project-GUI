@@ -44,11 +44,13 @@ public class TriState extends NonResident {
         double fee = 3268;
         double NYDiscount = 4000;
         double CTDiscount = 5000;
+        double nonresRate = 966;
+        double parttimeFee = 0.8;
         if (livesInCT){ // CT discount
             if (this.getCreditHours() < 12){
-                tuition = 966 * this.getCreditHours() + 3268 * 0.8;
+                tuition = nonresRate * this.getCreditHours() + fee * parttimeFee;
             }else if (this.getCreditHours() > 16){
-                tuition = tuition + fee - CTDiscount + 966 * (this.getCreditHours() - 16);
+                tuition = tuition + fee - CTDiscount + nonresRate * (this.getCreditHours() - 16);
             }
             else{
                 tuition = tuition + fee - CTDiscount;
@@ -56,9 +58,9 @@ public class TriState extends NonResident {
         }
         else{ // NY discount
             if (this.getCreditHours() < 12){
-                tuition = 966 * this.getCreditHours() + 3268 * 0.8;
+                tuition = nonresRate * this.getCreditHours() + fee * parttimeFee;
             }else if (this.getCreditHours() > 16){
-                tuition += fee - NYDiscount + 966 * (this.getCreditHours() - 16);
+                tuition += fee - NYDiscount + nonresRate * (this.getCreditHours() - 16);
             }
             else{
                 tuition += fee - NYDiscount;
@@ -91,25 +93,11 @@ public class TriState extends NonResident {
      */
     @Override
     public String toString() {  //John Doe:IT:18 credit hours:tuition due:30,937.00:total payment:0.00:last payment date: --/--/--:non-resident(tri-state):NY
-        String pattern = "###,##0.00";
-        DecimalFormat numberFormat = new DecimalFormat(pattern);
-        Date studentDateCheck = super.getDate(); // gets the student date
-        String dateString = "";
-        if(studentDateCheck == null){
-            dateString = "--/--/--";
-        }else{
-            dateString = this.getDate().getDate();
-        }
-        String CTorNY = "NY";
         if (livesInCT) {
-            CTorNY = "CT";
+            return super.toString() + "(tri-state):CT";
         }
-        String string = this.getProfile().getName() + ":" + this.getProfile().getMajor() + ":" + this.getCreditHours()
-                + " credit hours:" + "tuition due:" + numberFormat.format(this.getTotalCost()) + ":" +
-                "total payment:" + numberFormat.format(this.getTotalPayment()) + ":" + "last payment date: "
-                + dateString + ":" + "non-resident(tri-state):" + CTorNY;
-
-        return string;
+        else{
+            return super.toString() + "(tri-state):NY";
+        }
     }
-
 }

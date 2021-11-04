@@ -95,14 +95,17 @@ public class Student {
     public String toString() {  //John Doe:EE:18 credit hours:tuition due:0.00:total payment:0.00:last payment date: --/--/--:resident
         String pattern = "####,###0.00";
         DecimalFormat numberFormat = new DecimalFormat(pattern);
-        String dateString = date.getDate();
+        String dateString = "";
         if(this.date == null){
             dateString = "--/--/--";
+        }
+        else{
+            dateString = date.getDate();
         }
         String string = this.profile.getName() + ":" + this.profile.getMajor() + ":" + this.creditHours
                 + " credit hours:" + "tuition due:" + numberFormat.format(this.totalCost) + ":" +
                 "total payment:" + numberFormat.format(this.totalPayment) + ":" + "last payment date: "
-                + dateString + ":" + "resident";
+                + dateString;
 
         return string;
     }
