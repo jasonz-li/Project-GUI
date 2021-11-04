@@ -1,4 +1,6 @@
-package application; /**
+package application;
+import java.text.DecimalFormat;
+/**
  * The Student is a super class for other types of students: International, TriState, NonResident, Resident
  * payTuition() takes in a payment amount and date to pay off the tuition.
  * totalCost holds the value for the tuition due;
@@ -7,14 +9,34 @@ package application; /**
  * @author Jason Li, John Leng
  */
 
-import java.text.DecimalFormat;
-
 public class Student {
+
+    /**
+     * An instance of profile
+     */
     private Profile profile;
+
+    /**
+     * Credit hours of students
+     */
     private int creditHours;
+
+    /**
+     * Total tuition cost
+     */
     private double totalCost = 0;
+
+    /**
+     * Total payment paid
+     */
     private double totalPayment = 0;
+
+    /**
+     * Date instantiated for payment
+     */
     private Date date = null;
+
+
 
     /**
      * Constructor for Student class

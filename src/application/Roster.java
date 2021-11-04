@@ -10,7 +10,15 @@ package application;
  * @author Jason Li, John Leng
  */
 public class Roster {
+
+    /**
+     * An instance of a student array, roster
+     */
     private Student[] roster;
+
+    /**
+     * Size of the student array
+     */
     private int size; // keep track of the number of students in the roster
 
     /**

@@ -1,4 +1,6 @@
-package application; /**
+package application;
+
+/**
  * The Resident class extends from Student, and it is a type of student in the roster.
  * Tuition is calculated accordingly based credit hours and financial aid is offered.
  * setFinancialAid() sets the financial aid and only operates once.
@@ -6,12 +8,21 @@ package application; /**
  *
  * @author Jason Li, John Leng
  */
-import java.text.DecimalFormat;
+
 
 
 public class Resident extends Student {
+    /**
+     * financial aid for residents
+     */
     private double financialAid = 0;
+
+    /**
+     * Boolean to check if financial aid has been paid
+     */
     private boolean financialAidPaid = false;
+
+
 
     /**
      * Constructor a Resident.

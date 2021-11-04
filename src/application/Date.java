@@ -1,4 +1,10 @@
-package application; /**
+package application;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.StringTokenizer;
+
+/**
  * The Date class holds year, month, and day, and it checks if the date is valid and also compares two dates.
  * Method isValid() checks if the date is valid according to the assignments parameters.
  * Method compareTo() returns 1 if the date is valid, and returns 0 otherwise.
@@ -6,14 +12,26 @@ package application; /**
  * @author Jason Li, John Leng
  */
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.StringTokenizer;
-
 public class Date implements Comparable<Date> {
+
+    /**
+     * The date's year
+     */
     private int year;
+
+    /**
+     * The date's month
+     */
     private int month;
+
+    /**
+     * The date's day
+     */
     private int day;
+
+    /**
+     * A boolean check if the date is cleared
+     */
     private boolean dateCleared = false;
 
 

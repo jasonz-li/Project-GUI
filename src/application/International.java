@@ -1,12 +1,11 @@
-package application; /**
+package application;
+/**
  * The International class extends from NonResident, and it is a type of student in the roster.
  * Tuition is calculated accordingly based on studying abroad, and credit hours
  * toString() formats the student to list their attributes.
  *
  * @author Jason Li, John Leng
  */
-
-import java.text.DecimalFormat;
 
 public class International extends NonResident {
     public boolean studyingAbroad;
